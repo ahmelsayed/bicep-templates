@@ -1,0 +1,523 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "target": {
+            "limit": 100,
+            "matchAny": false,
+            "tags": [],
+            "type": "dashboard"
+          },
+          "type": "dashboard"
+        }
+      ]
+    },
+    "description": "Aggregate view of all Container Apps in a selected Container App Environment. Links to individual Container App View dashboards.",
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "gnetId": 16591,
+    "graphTooltip": 0,
+    "id": 2,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "P1EB995EACC6832D3"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "blue",
+              "mode": "continuous-BlPu"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": false,
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Link"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "targetBlank": true,
+                      "title": "See container app view",
+                      "url": "d/Wh6Si5g4z/container-apps-container-app-view?var-ds=${ds}﻿﻿&var-sub=﻿${sub}﻿&var-rg=${rg}&var-containerapp=﻿${__data.fields.Name}"
+                    }
+                  ]
+                },
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "type": "color-text"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "location"
+              },
+              "properties": [
+                {
+                  "id": "custom.filterable",
+                  "value": true
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 13,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 3,
+        "links": [],
+        "options": {
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "azureMonitor": {
+              "dimensionFilters": [],
+              "timeGrain": "auto"
+            },
+            "azureResourceGraph": {
+              "query": "Resources\r\n| where subscriptionId =~ '$sub'\r\n| where resourceGroup =~ '$rg'\r\n| where type =~ 'microsoft.app/containerapps'\r\n| where '${region:raw}' contains location\r\n| extend env = tostring(properties.managedEnvironmentId)\r\n| where env endswith '$environment'\r\n| extend LatestRevision = tostring(properties.latestRevisionName)\r\n| extend Link = \"Go to dashboard\"\r\n| extend Name = name\r\n| extend Location = location\r\n| project Name, Location, LatestRevision, Link"
+            },
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "P1EB995EACC6832D3"
+            },
+            "queryType": "Azure Resource Graph",
+            "refId": "A",
+            "subscription": "a5c27c0c-35f5-488f-9a2f-93e06c2eb56f",
+            "subscriptions": [
+              "$sub"
+            ]
+          }
+        ],
+        "title": "Container Apps in Environment",
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "P1EB995EACC6832D3"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "blue",
+              "mode": "fixed"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "percentage",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "link"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "targetBlank": true,
+                      "title": "See container app view",
+                      "url": "d/9T381QCnz/container-app-view?var-environment=${environment}﻿&var-containerapp=﻿${__data.fields.name}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 16,
+          "x": 4,
+          "y": 13
+        },
+        "id": 4,
+        "links": [],
+        "options": {
+          "basemap": {
+            "config": {},
+            "name": "Layer 0",
+            "type": "default"
+          },
+          "controls": {
+            "mouseWheelZoom": true,
+            "showAttribution": true,
+            "showDebug": false,
+            "showMeasure": false,
+            "showScale": false,
+            "showZoom": true
+          },
+          "layers": [
+            {
+              "config": {
+                "showLegend": false,
+                "style": {
+                  "color": {
+                    "fixed": "dark-green"
+                  },
+                  "opacity": 0.4,
+                  "rotation": {
+                    "fixed": 0,
+                    "max": 360,
+                    "min": -360,
+                    "mode": "mod"
+                  },
+                  "size": {
+                    "field": "total",
+                    "fixed": 5,
+                    "max": 11,
+                    "min": 5
+                  },
+                  "symbol": {
+                    "fixed": "img/icons/marker/circle.svg",
+                    "mode": "fixed"
+                  },
+                  "textConfig": {
+                    "fontSize": 12,
+                    "offsetX": 0,
+                    "offsetY": 0,
+                    "textAlign": "center",
+                    "textBaseline": "middle"
+                  }
+                }
+              },
+              "location": {
+                "mode": "auto"
+              },
+              "name": "Layer 1",
+              "tooltip": true,
+              "type": "markers"
+            }
+          ],
+          "tooltip": {
+            "mode": "details"
+          },
+          "view": {
+            "allLayers": true,
+            "id": "coords",
+            "lat": 0,
+            "lon": 0,
+            "zoom": 2
+          }
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "azureMonitor": {
+              "dimensionFilters": [],
+              "timeGrain": "auto"
+            },
+            "azureResourceGraph": {
+              "query": "Resources\r\n| where subscriptionId =~ '$sub'\r\n| where resourceGroup =~ '$rg'\r\n| where type =~ 'microsoft.app/containerapps'\r\n| where '${region:raw}' contains location\r\n| extend env = tostring(properties.managedEnvironmentId)\r\n| where env endswith '$environment'\r\n| summarize total = count() by location\r\n| extend region = case(location =~ \"eastasia\", \"East Asia\",\r\n                      location =~ \"southeastasia\", \"Southeast Asia\",\r\n                      location =~ \"centralus\", \"Central US\",\r\n                      location =~ \"eastus\", \"East US\",\r\n                      location =~ \"eastus2\", \"East US 2\",\r\n                      location =~ \"westus\", \"West US\",\r\n                      location =~ \"westus2\", \"West US 2\",\r\n                      location =~ \"westcentralus\", \"West Central US\",\r\n                      location =~ \"northcentralus\", \"North Central US\",\r\n                      location =~ \"southcentralus\", \"South Central US\",\r\n                      location =~ \"northeurope\", \"North Europe\",\r\n                      location =~ \"westeurope\", \"West Europe\",\r\n                      location =~ \"australiaeast\", \"Australia East\",\r\n                      location =~ \"australiasoutheast\", \"Australia Southeast\",\r\n                      location =~ \"canadacentral\", \"Canada Central\",\r\n                      location =~ \"canadaeast\", \"Canada East\",\r\n                      location =~ \"uksouth\", \"UK South\",\r\n                      location =~ \"ukwest\", \"UK West\",\r\n                      \"N/A\")\r\n| extend latitude = case(location =~ \"eastasia\", 22.267,\r\n                      location =~ \"southeastasia\", 1.283,\r\n                      location =~ \"centralus\", 41.5908,\r\n                      location =~ \"eastus\", 37.3719,\r\n                      location =~ \"eastus2\", 36.6681,\r\n                      location =~ \"westus\", 37.783,\r\n                      location =~ \"westus2\", 47.233,\r\n                      location =~ \"westcentralus\", 40.890,\r\n                      location =~ \"northcentralus\", 41.8819,\r\n                      location =~ \"southcentralus\", 29.4167,\r\n                      location =~ \"northeurope\", 53.3478,\r\n                      location =~ \"westeurope\", 52.3667,\r\n                      location =~ \"australiaeast\", -33.86,\r\n                      location =~ \"australiasoutheast\", -37.8136,\r\n                      location =~ \"canadacentral\", 43.653,\r\n                      location =~ \"canadaeast\", 46.817,\r\n                      location =~ \"uksouth\", 50.941,\r\n                      location =~ \"ukwest\", 53.427,\r\n                      0.0)\r\n| extend longitude = case(location =~ \"eastasia\", 114.188,\r\n                      location =~ \"southeastasia\", 103.833,\r\n                      location =~ \"centralus\", -93.6208,\r\n                      location =~ \"eastus\", -79.8164,\r\n                      location =~ \"eastus2\", -78.3889,\r\n                      location =~ \"westus\", -122.417,\r\n                      location =~ \"westus2\", -119.852,\r\n                      location =~ \"westcentralus\", -110.234,\r\n                      location =~ \"northcentralus\", -87.6278,\r\n                      location =~ \"southcentralus\", -98.5,\r\n                      location =~ \"northeurope\", -6.2597,\r\n                      location =~ \"westeurope\", 4.9,\r\n                      location =~ \"australiaeast\", 151.2094,\r\n                      location =~ \"australiasoutheast\", 144.9631,\r\n                      location =~ \"canadacentral\", -79.383,\r\n                      location =~ \"canadaeast\", -71.217,\r\n                      location =~ \"uksouth\", -0.799,\r\n                      location =~ \"ukwest\", -3.084,\r\n                      0.0)\r\n| project total, region, latitude, longitude"
+            },
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "P1EB995EACC6832D3"
+            },
+            "hide": false,
+            "queryType": "Azure Resource Graph",
+            "refId": "A",
+            "subscription": "a5c27c0c-35f5-488f-9a2f-93e06c2eb56f",
+            "subscriptions": [
+              "$sub"
+            ]
+          }
+        ],
+        "title": "Container Apps by Region",
+        "transformations": [],
+        "type": "geomap"
+      }
+    ],
+    "refresh": "",
+    "revision": 1,
+    "schemaVersion": 38,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "selected": false,
+            "text": "default",
+            "value": "default"
+          },
+          "hide": 0,
+          "includeAll": false,
+          "label": "Datasource",
+          "multi": false,
+          "name": "ds",
+          "options": [],
+          "query": "grafana-azure-monitor-datasource",
+          "queryValue": "",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "type": "datasource"
+        },
+        {
+          "current": { },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "P1EB995EACC6832D3"
+          },
+          "definition": "",
+          "hide": 0,
+          "includeAll": false,
+          "label": "Subscription",
+          "multi": false,
+          "name": "sub",
+          "options": [],
+          "query": {
+            "grafanaTemplateVariableFn": {
+              "kind": "SubscriptionsQuery",
+              "rawQuery": "Subscriptions()"
+            },
+            "queryType": "Grafana Template Variable Function",
+            "refId": "A",
+            "subscription": "a5c27c0c-35f5-488f-9a2f-93e06c2eb56f"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 5,
+          "type": "query"
+        },
+        {
+          "current": { },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "P1EB995EACC6832D3"
+          },
+          "definition": "",
+          "hide": 0,
+          "includeAll": false,
+          "label": "Resource Group",
+          "multi": false,
+          "name": "rg",
+          "options": [],
+          "query": {
+            "grafanaTemplateVariableFn": {
+              "kind": "ResourceGroupsQuery",
+              "rawQuery": "ResourceGroups($sub)",
+              "subscription": "$sub"
+            },
+            "queryType": "Grafana Template Variable Function",
+            "refId": "A",
+            "subscription": "a5c27c0c-35f5-488f-9a2f-93e06c2eb56f"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 5,
+          "type": "query"
+        },
+        {
+          "current": { },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "P1EB995EACC6832D3"
+          },
+          "definition": "",
+          "description": "",
+          "hide": 0,
+          "includeAll": false,
+          "label": "Container App Environment",
+          "multi": false,
+          "name": "environment",
+          "options": [],
+          "query": {
+            "grafanaTemplateVariableFn": {
+              "kind": "ResourceNamesQuery",
+              "metricDefinition": "$env_ns",
+              "rawQuery": "ResourceNames($sub, $rg, $env_ns)",
+              "resourceGroup": "$rg",
+              "subscription": "$sub"
+            },
+            "queryType": "Grafana Template Variable Function",
+            "refId": "A",
+            "subscription": "a5c27c0c-35f5-488f-9a2f-93e06c2eb56f"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 5,
+          "type": "query"
+        },
+        {
+          "hide": 2,
+          "name": "env_ns",
+          "query": "microsoft.app/managedEnvironments",
+          "skipUrlSync": false,
+          "type": "constant"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
+          },
+          "hide": 0,
+          "includeAll": true,
+          "label": "Region(s)",
+          "multi": true,
+          "name": "region",
+          "options": [
+            {
+              "selected": true,
+              "text": "All",
+              "value": "$__all"
+            },
+            {
+              "selected": false,
+              "text": "australiaeast",
+              "value": "australiaeast"
+            },
+            {
+              "selected": false,
+              "text": "canadacentral",
+              "value": "canadacentral"
+            },
+            {
+              "selected": false,
+              "text": "eastasia",
+              "value": "eastasia"
+            },
+            {
+              "selected": false,
+              "text": "eastus",
+              "value": "eastus"
+            },
+            {
+              "selected": false,
+              "text": "eastus2",
+              "value": "eastus2"
+            },
+            {
+              "selected": false,
+              "text": "germanywestcentral",
+              "value": "germanywestcentral"
+            },
+            {
+              "selected": false,
+              "text": "japaneast",
+              "value": "japaneast"
+            },
+            {
+              "selected": false,
+              "text": "northeurope",
+              "value": "northeurope"
+            },
+            {
+              "selected": false,
+              "text": "uksouth",
+              "value": "uksouth"
+            },
+            {
+              "selected": false,
+              "text": "westeurope",
+              "value": "westeurope"
+            },
+            {
+              "selected": false,
+              "text": "westus",
+              "value": "westus"
+            }
+          ],
+          "query": "australiaeast,canadacentral,eastasia,eastus,eastus2,germanywestcentral,japaneast,northeurope,uksouth,westeurope,westus",
+          "queryValue": "",
+          "skipUrlSync": false,
+          "type": "custom"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "Azure / Container Apps / Aggregate View",
+    "uid": "sHH4i5R4k",
+    "version": 1,
+    "weekStart": ""
+}
