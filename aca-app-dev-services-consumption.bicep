@@ -30,9 +30,6 @@ resource postgres 'Microsoft.App/containerApps@2022-11-01-preview' = {
         type: 'postgres'
       }
     }
-    template: {
-      containers: [ { name: 'postgres', image: 'postgres' } ]
-    }
   }
 }
 
@@ -47,9 +44,6 @@ resource redis 'Microsoft.App/containerApps@2022-11-01-preview' = {
         type: 'redis'
       }
     }
-    template: {
-      containers: [ { name: 'redis', image: 'redis' } ]
-    }
   }
 }
 
@@ -63,9 +57,6 @@ resource kafka 'Microsoft.App/containerApps@2022-11-01-preview' = {
       service: {
         type: 'kafka'
       }
-    }
-    template: {
-      containers: [ { name: 'kafka', image: 'kafka' } ]
     }
   }
 }

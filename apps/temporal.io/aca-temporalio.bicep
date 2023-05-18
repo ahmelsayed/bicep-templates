@@ -22,9 +22,6 @@ resource postgres 'Microsoft.App/containerApps@2022-11-01-preview' = {
         type: 'postgres'
       }
     }
-    template: {
-      containers: [ { name: 'postgres', image: 'postgres' } ]
-    }
   }
 }
 
