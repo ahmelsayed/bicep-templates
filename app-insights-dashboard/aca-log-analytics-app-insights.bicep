@@ -25,7 +25,7 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
   }
 }
 
-module applicationInsightsDashboard './app-insights-files/applicationinsights-dashboard.bicep' = {
+module applicationInsightsDashboard './applicationinsights-dashboard.bicep' = {
   name: 'application-insights-dashboard'
   params: {
     name: 'application-insights-dashboard'
