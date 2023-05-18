@@ -1,5 +1,6 @@
 targetScope = 'resourceGroup'
 param location string = resourceGroup().location
+param acaLocation string = 'northcentralusstage'
 
 resource vnet 'Microsoft.Network/virtualNetworks@2022-11-01' = {
   name: 'apps-vnet'
@@ -15,6 +16,17 @@ resource vnet 'Microsoft.Network/virtualNetworks@2022-11-01' = {
         name: 'infra-subnet'
         properties: {
           addressPrefix: '10.0.0.0/23'
+          delegations: [
+            {
+              name: 'Microsoft.App.environments'
+              properties: {
+                serviceName: 'Microsoft.App/environments'
+                actions: [
+                  'Microsoft.Network/virtualNetworks/subnets/join/action'
+                ]
+              }
+            }
+          ]
         }
       }
     ]
@@ -23,7 +35,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2022-11-01' = {
 
 resource appEnv 'Microsoft.App/managedEnvironments@2022-11-01-preview' = {
   name: 'aca-env'
-  location: location
+  location: acaLocation
   properties: {
     appLogsConfiguration: {
       destination: 'azure-monitor'
@@ -44,7 +56,7 @@ resource appEnv 'Microsoft.App/managedEnvironments@2022-11-01-preview' = {
 
 resource postgres 'Microsoft.App/containerApps@2022-11-01-preview' = {
   name: 'postgres'
-  location: location
+  location: acaLocation
   properties: {
     workloadProfileName: 'consumption'
     environmentId: appEnv.id
@@ -61,7 +73,7 @@ resource postgres 'Microsoft.App/containerApps@2022-11-01-preview' = {
 
 resource redis 'Microsoft.App/containerApps@2022-11-01-preview' = {
   name: 'redis'
-  location: location
+  location: acaLocation
   properties: {
     workloadProfileName: 'consumption'
     environmentId: appEnv.id
@@ -78,7 +90,7 @@ resource redis 'Microsoft.App/containerApps@2022-11-01-preview' = {
 
 resource kafka 'Microsoft.App/containerApps@2022-11-01-preview' = {
   name: 'kafka'
-  location: location
+  location: acaLocation
   properties: {
     workloadProfileName: 'consumption'
     environmentId: appEnv.id
@@ -95,7 +107,7 @@ resource kafka 'Microsoft.App/containerApps@2022-11-01-preview' = {
 
 resource shell 'Microsoft.App/containerApps@2022-11-01-preview' = {
   name: 'shell'
-  location: location
+  location: acaLocation
   properties: {
     workloadProfileName: 'consumption'
     environmentId: appEnv.id
@@ -137,7 +149,7 @@ resource shell 'Microsoft.App/containerApps@2022-11-01-preview' = {
 
 resource pgweb 'Microsoft.App/containerApps@2022-11-01-preview' = {
   name: 'pgweb'
-  location: location
+  location: acaLocation
   properties: {
     workloadProfileName: 'consumption'
     environmentId: appEnv.id
@@ -173,7 +185,7 @@ resource pgweb 'Microsoft.App/containerApps@2022-11-01-preview' = {
 
 resource kafkaUi 'Microsoft.App/containerApps@2022-11-01-preview' = {
   name: 'kafka-ui'
-  location: location
+  location: acaLocation
   properties: {
     workloadProfileName: 'consumption'
     environmentId: appEnv.id
