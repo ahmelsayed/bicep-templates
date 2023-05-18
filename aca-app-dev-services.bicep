@@ -1,7 +1,7 @@
 targetScope = 'resourceGroup'
 param location string = resourceGroup().location
 
-resource appEnv 'Microsoft.App/managedEnvironments@2022-11-01-preview' = {
+resource appEnv 'Microsoft.App/managedEnvironments@2023-04-01-preview' = {
   name: 'aca-env'
   location: location
   properties: {
@@ -11,7 +11,7 @@ resource appEnv 'Microsoft.App/managedEnvironments@2022-11-01-preview' = {
   }
 }
 
-resource postgres 'Microsoft.App/containerApps@2022-11-01-preview' = {
+resource postgres 'Microsoft.App/containerApps@2023-04-01-preview' = {
   name: 'postgres'
   location: location
   properties: {
@@ -24,7 +24,7 @@ resource postgres 'Microsoft.App/containerApps@2022-11-01-preview' = {
   }
 }
 
-resource redis 'Microsoft.App/containerApps@2022-11-01-preview' = {
+resource redis 'Microsoft.App/containerApps@2023-04-01-preview' = {
   name: 'redis'
   location: location
   properties: {
@@ -37,7 +37,7 @@ resource redis 'Microsoft.App/containerApps@2022-11-01-preview' = {
   }
 }
 
-resource kafka 'Microsoft.App/containerApps@2022-11-01-preview' = {
+resource kafka 'Microsoft.App/containerApps@2023-04-01-preview' = {
   name: 'kafka'
   location: location
   properties: {
@@ -50,7 +50,7 @@ resource kafka 'Microsoft.App/containerApps@2022-11-01-preview' = {
   }
 }
 
-resource shell 'Microsoft.App/containerApps@2022-11-01-preview' = {
+resource shell 'Microsoft.App/containerApps@2023-04-01-preview' = {
   name: 'shell'
   location: location
   properties: {
@@ -91,7 +91,7 @@ resource shell 'Microsoft.App/containerApps@2022-11-01-preview' = {
   }
 }
 
-resource pgweb 'Microsoft.App/containerApps@2022-11-01-preview' = {
+resource pgweb 'Microsoft.App/containerApps@2023-04-01-preview' = {
   name: 'pgweb'
   location: location
   properties: {
@@ -126,7 +126,7 @@ resource pgweb 'Microsoft.App/containerApps@2022-11-01-preview' = {
   }
 }
 
-resource kafkaUi 'Microsoft.App/containerApps@2022-11-01-preview' = {
+resource kafkaUi 'Microsoft.App/containerApps@2023-04-01-preview' = {
   name: 'kafka-ui'
   location: location
   properties: {
@@ -170,5 +170,16 @@ resource kafkaUi 'Microsoft.App/containerApps@2022-11-01-preview' = {
 }
 
 output shellUrl string = 'https://${shell.properties.configuration.ingress.fqdn}'
+output shellLogs string = 'az containerapp logs show -n ${shell.name} -g ${resourceGroup().name} --revision ${shell.properties.latestRevisionName} --follow --tail 30'
+output shellExec string = 'az containerapp exec -n ${shell.name} -g ${resourceGroup().name} --revision ${shell.properties.latestRevisionName} --command /bin/bash'
+output showShellRevision string = 'az containerapp revision show -n ${shell.name} -g ${resourceGroup().name} --revision ${shell.properties.latestRevisionName}'
+
 output pgwebUrl string = 'https://${pgweb.properties.configuration.ingress.fqdn}'
+output pgwebLogs string = 'az containerapp logs show -n ${pgweb.name} -g ${resourceGroup().name} --revision ${pgweb.properties.latestRevisionName} --follow --tail 30'
+output pgwebExec string = 'az containerapp exec -n ${pgweb.name} -g ${resourceGroup().name} --revision ${pgweb.properties.latestRevisionName} --command /bin/bash'
+output showPgwebRevision string = 'az containerapp revision show -n ${pgweb.name} -g ${resourceGroup().name} --revision ${pgweb.properties.latestRevisionName}'
+
 output kafkaUiUrl string = 'https://${kafkaUi.properties.configuration.ingress.fqdn}'
+output kafkaUiLogs string = 'az containerapp logs show -n ${kafkaUi.name} -g ${resourceGroup().name} --revision ${kafkaUi.properties.latestRevisionName} --follow --tail 30'
+output kafkaUiExec string = 'az containerapp exec -n ${kafkaUi.name} -g ${resourceGroup().name} --revision ${kafkaUi.properties.latestRevisionName} --command /bin/bash'
+output showKafkaUiRevision string = 'az containerapp revision show -n ${kafkaUi.name} -g ${resourceGroup().name} --revision ${kafkaUi.properties.latestRevisionName}'

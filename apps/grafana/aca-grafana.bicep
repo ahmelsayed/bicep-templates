@@ -125,4 +125,11 @@ resource nginx 'Microsoft.App/containerApps@2022-10-01' = {
 }
 
 output grafanaUrl string = 'https://${grafana.properties.configuration.ingress.fqdn}'
+output grafanaLogs string = 'az containerapp logs show -n ${grafana.name} -g ${resourceGroup().name} --revision ${grafana.properties.latestRevisionName} --follow --tail 30'
+output grafanaExec string = 'az containerapp exec -n ${grafana.name} -g ${resourceGroup().name} --revision ${grafana.properties.latestRevisionName} --command /bin/bash'
+output showGrafanaRevision string = 'az containerapp revision show -n ${grafana.name} -g ${resourceGroup().name} --revision ${grafana.properties.latestRevisionName}'
+
 output nginxUrl string = 'https://${nginx.properties.configuration.ingress.fqdn}'
+output nginxLogs string = 'az containerapp logs show -n ${nginx.name} -g ${resourceGroup().name} --revision ${nginx.properties.latestRevisionName} --follow --tail 30'
+output nginxExec string = 'az containerapp exec -n ${nginx.name} -g ${resourceGroup().name} --revision ${nginx.properties.latestRevisionName} --command /bin/bash'
+output showNginxRevision string = 'az containerapp revision show -n ${nginx.name} -g ${resourceGroup().name} --revision ${nginx.properties.latestRevisionName}'
