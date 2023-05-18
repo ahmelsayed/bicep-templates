@@ -28,10 +28,14 @@ resource clamd 'Microsoft.App/containerApps@2022-11-01-preview' = {
         {
           name: 'clamd'
           image: 'docker.io/clamav/clamav:0.104'
+          resources: {
+            cpu: json('2.0')
+            memory: '4.0Gi'
+          }
         }
       ]
       scale: {
-        minReplicas: 0
+        minReplicas: 1
         maxReplicas: 1
       }
     }
@@ -69,7 +73,7 @@ resource clamAVApi 'Microsoft.App/containerApps@2022-11-01-preview' = {
               value: '3310'
             }
             {
-              name: 'APP_FROM_KEY'
+              name: 'APP_FORM_KEY'
               value: 'FILES'
             }
             {
@@ -84,13 +88,12 @@ resource clamAVApi 'Microsoft.App/containerApps@2022-11-01-preview' = {
         }
       ]
       scale: {
-        minReplicas: 0
+        minReplicas: 1
         maxReplicas: 1
       }
     }
   }
 }
-
 
 
 output clamAVApi string = 'https://${clamAVApi.properties.configuration.ingress.fqdn}'

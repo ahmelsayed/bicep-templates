@@ -10,22 +10,17 @@
 
 ```bash
 
-curl -s -XPOST https://{appUrl}/api/v1/scan -F FILES=@src/tests/1Mfile01.rnd -F FILES=@src/tests/eicar_com.zip | jq
+curl -s -XPOST https://{appUrl}/api/v1/scan -F FILES=@file/to/scan.exe | jq
+
+
 {
   "success": true,
   "data": {
     "result": [
       {
-        "name": "1Mfile01.rnd",
+        "name": "scan.exe",
         "is_infected": false,
         "viruses": []
-      },
-      {
-        "name": "eicar_com.zip",
-        "is_infected": true,
-        "viruses": [
-          "Win.Test.EICAR_HDB-1"
-        ]
       }
     ]
   }
