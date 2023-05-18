@@ -218,6 +218,6 @@ resource kafkaUi 'Microsoft.App/containerApps@2022-11-01-preview' = {
   }
 }
 
-output shellUrl string = shell.properties.configuration.ingress.fqdn
-output pgwebUrl string = pgweb.properties.configuration.ingress.fqdn
-output kafkaUiUrl string = kafkaUi.properties.configuration.ingress.fqdn
+output shellUrl string = 'https://${shell.properties.configuration.ingress.fqdn}'
+output pgwebUrl string = 'https://${pgweb.properties.configuration.ingress.fqdn}'
+output kafkaUiUrl string = 'https://${kafkaUi.properties.configuration.ingress.fqdn}'

@@ -124,5 +124,5 @@ resource nginx 'Microsoft.App/containerApps@2022-10-01' = {
   }
 }
 
-output grafanaUrl string = grafana.properties.configuration.ingress.fqdn
-output nginxUrl string = nginx.properties.configuration.ingress.fqdn
+output grafanaUrl string = 'https://${grafana.properties.configuration.ingress.fqdn}'
+output nginxUrl string = 'https://${nginx.properties.configuration.ingress.fqdn}'

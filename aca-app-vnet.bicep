@@ -63,4 +63,4 @@ resource app 'Microsoft.App/containerApps@2022-11-01-preview' = {
   }
 }
 
-output appUrl string = app.properties.configuration.ingress.fqdn
+output appUrl string = 'https://${app.properties.configuration.ingress.fqdn}'
