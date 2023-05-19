@@ -31,7 +31,7 @@ resource app 'Microsoft.App/containerApps@2022-11-01-preview' = {
         }
       ]
       scale: {
-        minReplicas: 1
+        minReplicas: 0
         maxReplicas: 5
         rules: [
           {
