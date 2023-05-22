@@ -95,12 +95,11 @@ resource clamAVApi 'Microsoft.App/containerApps@2022-11-01-preview' = {
   }
 }
 
-
 output clamAVApi string = 'https://${clamAVApi.properties.configuration.ingress.fqdn}'
-output clamAVApiLogs string = 'az containerapp logs show -n ${clamAVApi.name} -g ${resourceGroup().name} --revision ${clamAVApi.properties.latestRevisionName} --follow --tail 30'
-output clamAVApiExec string = 'az containerapp exec -n ${clamAVApi.name} -g ${resourceGroup().name} --revision ${clamAVApi.properties.latestRevisionName} --command /bin/bash'
-output showClamAVApiRevision string = 'az containerapp revision show -n ${clamAVApi.name} -g ${resourceGroup().name} --revision ${clamAVApi.properties.latestRevisionName}'
+output azClamAVApiLogs string = 'az containerapp logs show -n ${clamAVApi.name} -g ${resourceGroup().name} --revision ${clamAVApi.properties.latestRevisionName} --follow --tail 30'
+output azClamAVApiExec string = 'az containerapp exec -n ${clamAVApi.name} -g ${resourceGroup().name} --revision ${clamAVApi.properties.latestRevisionName} --command /bin/bash'
+output azShowClamAVApiRevision string = 'az containerapp revision show -n ${clamAVApi.name} -g ${resourceGroup().name} --revision ${clamAVApi.properties.latestRevisionName}'
 
-output clamdLogs string = 'az containerapp logs show -n ${clamd.name} -g ${resourceGroup().name} --revision ${clamd.properties.latestRevisionName} --follow --tail 30'
-output clamdExec string = 'az containerapp exec -n ${clamd.name} -g ${resourceGroup().name} --revision ${clamd.properties.latestRevisionName} --command /bin/bash'
-output showClamdRevision string = 'az containerapp revision show -n ${clamd.name} -g ${resourceGroup().name} --revision ${clamd.properties.latestRevisionName}'
+output azClamdLogs string = 'az containerapp logs show -n ${clamd.name} -g ${resourceGroup().name} --revision ${clamd.properties.latestRevisionName} --follow --tail 30'
+output azClamdExec string = 'az containerapp exec -n ${clamd.name} -g ${resourceGroup().name} --revision ${clamd.properties.latestRevisionName} --command /bin/bash'
+output azShowClamdRevision string = 'az containerapp revision show -n ${clamd.name} -g ${resourceGroup().name} --revision ${clamd.properties.latestRevisionName}'
