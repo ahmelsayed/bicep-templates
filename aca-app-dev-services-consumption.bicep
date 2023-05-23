@@ -1,5 +1,6 @@
 targetScope = 'resourceGroup'
 param location string = resourceGroup().location
+param externalShell bool = false
 
 resource appEnv 'Microsoft.App/managedEnvironments@2022-11-01-preview' = {
   name: 'aca-env'
@@ -68,7 +69,7 @@ resource shell 'Microsoft.App/containerApps@2022-11-01-preview' = {
     environmentId: appEnv.id
     configuration: {
       ingress: {
-        external: true
+        external: externalShell
         targetPort: 8376
         transport: 'http'
       }
@@ -184,7 +185,7 @@ resource kafkaUi 'Microsoft.App/containerApps@2022-11-01-preview' = {
 
 output shellUrl string = 'https://${shell.properties.configuration.ingress.fqdn}'
 output shellLogs string = 'az containerapp logs show -n ${shell.name} -g ${resourceGroup().name} --revision ${shell.properties.latestRevisionName} --follow --tail 30'
-output shellExec string = 'az containerapp exec -n ${shell.name} -g ${resourceGroup().name} --revision ${shell.properties.latestRevisionName} --command /bin/bash'
+output shellExec string = 'az containerapp exec -n ${shell.name} -g ${resourceGroup().name} --revision ${shell.properties.latestRevisionName} --command /bin/zsh'
 output showShellRevision string = 'az containerapp revision show -n ${shell.name} -g ${resourceGroup().name} --revision ${shell.properties.latestRevisionName}'
 
 output pgwebUrl string = 'https://${pgweb.properties.configuration.ingress.fqdn}'

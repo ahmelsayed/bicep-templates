@@ -1,6 +1,6 @@
 targetScope = 'resourceGroup'
 param location string = resourceGroup().location
-param acaLocation string = 'northcentralusstage'
+param externalShell bool = false
 
 resource vnet 'Microsoft.Network/virtualNetworks@2022-11-01' = {
   name: 'apps-vnet'
@@ -35,7 +35,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2022-11-01' = {
 
 resource appEnv 'Microsoft.App/managedEnvironments@2022-11-01-preview' = {
   name: 'aca-env'
-  location: acaLocation
+  location: location
   properties: {
     appLogsConfiguration: {
       destination: 'azure-monitor'
@@ -56,7 +56,7 @@ resource appEnv 'Microsoft.App/managedEnvironments@2022-11-01-preview' = {
 
 resource postgres 'Microsoft.App/containerApps@2022-11-01-preview' = {
   name: 'postgres'
-  location: acaLocation
+  location: location
   properties: {
     workloadProfileName: 'consumption'
     environmentId: appEnv.id
@@ -70,7 +70,7 @@ resource postgres 'Microsoft.App/containerApps@2022-11-01-preview' = {
 
 resource redis 'Microsoft.App/containerApps@2022-11-01-preview' = {
   name: 'redis'
-  location: acaLocation
+  location: location
   properties: {
     workloadProfileName: 'consumption'
     environmentId: appEnv.id
@@ -84,7 +84,7 @@ resource redis 'Microsoft.App/containerApps@2022-11-01-preview' = {
 
 resource kafka 'Microsoft.App/containerApps@2022-11-01-preview' = {
   name: 'kafka'
-  location: acaLocation
+  location: location
   properties: {
     workloadProfileName: 'consumption'
     environmentId: appEnv.id
@@ -98,13 +98,13 @@ resource kafka 'Microsoft.App/containerApps@2022-11-01-preview' = {
 
 resource shell 'Microsoft.App/containerApps@2022-11-01-preview' = {
   name: 'shell'
-  location: acaLocation
+  location: location
   properties: {
     workloadProfileName: 'consumption'
     environmentId: appEnv.id
     configuration: {
       ingress: {
-        external: true
+        external: externalShell
         targetPort: 8376
         transport: 'http'
       }
@@ -140,7 +140,7 @@ resource shell 'Microsoft.App/containerApps@2022-11-01-preview' = {
 
 resource pgweb 'Microsoft.App/containerApps@2022-11-01-preview' = {
   name: 'pgweb'
-  location: acaLocation
+  location: location
   properties: {
     workloadProfileName: 'consumption'
     environmentId: appEnv.id
@@ -176,7 +176,7 @@ resource pgweb 'Microsoft.App/containerApps@2022-11-01-preview' = {
 
 resource kafkaUi 'Microsoft.App/containerApps@2022-11-01-preview' = {
   name: 'kafka-ui'
-  location: acaLocation
+  location: location
   properties: {
     workloadProfileName: 'consumption'
     environmentId: appEnv.id
@@ -218,9 +218,9 @@ resource kafkaUi 'Microsoft.App/containerApps@2022-11-01-preview' = {
   }
 }
 
-output shellUrl string = 'https://${shell.properties.configuration.ingress.fqdn}'
+output shellUrl string =  'https://${shell.properties.configuration.ingress.fqdn}'
 output azShellLogs string = 'az containerapp logs show -n ${shell.name} -g ${resourceGroup().name} --revision ${shell.properties.latestRevisionName} --follow --tail 30'
-output azShellExec string = 'az containerapp exec -n ${shell.name} -g ${resourceGroup().name} --revision ${shell.properties.latestRevisionName} --command /bin/bash'
+output azShellExec string = 'az containerapp exec -n ${shell.name} -g ${resourceGroup().name} --revision ${shell.properties.latestRevisionName} --command /bin/zsh'
 output azShowShellRevision string = 'az containerapp revision show -n ${shell.name} -g ${resourceGroup().name} --revision ${shell.properties.latestRevisionName}'
 
 output pgwebUrl string = 'https://${pgweb.properties.configuration.ingress.fqdn}'
