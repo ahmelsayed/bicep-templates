@@ -58,6 +58,11 @@ resource app 'Microsoft.App/containerApps@2022-11-01-preview' = {
 }
 
 output appUrl string = 'https://${app.properties.configuration.ingress.fqdn}'
+output appId string = app.id
+output latestCreatedRevision string = app.properties.latestRevisionName
+output latestCreatedRevisionId string = '${app.id}/revisions/${app.properties.latestRevisionName}'
+output latestReadyRevision string = app.properties.latestReadyRevisionName
+output latestReadyRevisionId string = '${app.id}/revisions/${app.properties.latestReadyRevisionName}'
 output azAppLogs string = 'az containerapp logs show -n ${app.name} -g ${resourceGroup().name} --revision ${app.properties.latestRevisionName} --follow --tail 30'
 output azAppExec string = 'az containerapp exec -n ${app.name} -g ${resourceGroup().name} --revision ${app.properties.latestRevisionName} --command /bin/bash'
 output azShowRevision string = 'az containerapp revision show -n ${app.name} -g ${resourceGroup().name} --revision ${app.properties.latestRevisionName}'

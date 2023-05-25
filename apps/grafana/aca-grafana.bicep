@@ -125,11 +125,17 @@ resource nginx 'Microsoft.App/containerApps@2022-10-01' = {
 }
 
 output grafanaUrl string = 'https://${grafana.properties.configuration.ingress.fqdn}'
+output grafanaId string = grafana.id
+output latestCreatedRevision string = grafana.properties.latestRevisionName
+output latestCreatedRevisionId string = '${grafana.id}/revisions/${grafana.properties.latestRevisionName}'
+output latestReadyRevision string = grafana.properties.latestReadyRevisionName
+output latestReadyRevisionId string = '${grafana.id}/revisions/${grafana.properties.latestReadyRevisionName}'
 output azGrafanaLogs string = 'az containerapp logs show -n ${grafana.name} -g ${resourceGroup().name} --revision ${grafana.properties.latestRevisionName} --follow --tail 30'
 output azGrafanaExec string = 'az containerapp exec -n ${grafana.name} -g ${resourceGroup().name} --revision ${grafana.properties.latestRevisionName} --command /bin/bash'
 output azShowGrafanaRevision string = 'az containerapp revision show -n ${grafana.name} -g ${resourceGroup().name} --revision ${grafana.properties.latestRevisionName}'
 
 output nginxUrl string = 'https://${nginx.properties.configuration.ingress.fqdn}'
+output nginxId string = nginx.id
 output azNginxLogs string = 'az containerapp logs show -n ${nginx.name} -g ${resourceGroup().name} --revision ${nginx.properties.latestRevisionName} --follow --tail 30'
 output azNginxExec string = 'az containerapp exec -n ${nginx.name} -g ${resourceGroup().name} --revision ${nginx.properties.latestRevisionName} --command /bin/bash'
 output azShowNginxRevision string = 'az containerapp revision show -n ${nginx.name} -g ${resourceGroup().name} --revision ${nginx.properties.latestRevisionName}'

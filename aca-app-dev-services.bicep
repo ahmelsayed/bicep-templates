@@ -171,16 +171,30 @@ resource kafkaUi 'Microsoft.App/containerApps@2023-04-01-preview' = {
 }
 
 output shellUrl string = 'https://${shell.properties.configuration.ingress.fqdn}'
+output shellId string = shell.id
+output shellLatestCreatedRevision string = shell.properties.latestRevisionName
+output shellLatestCreatedRevisionId string = '${shell.id}/revisions/${shell.properties.latestRevisionName}'
+output shellLatestReadyRevision string = shell.properties.latestReadyRevisionName
+output shellLatestReadyRevisionId string = '${shell.id}/revisions/${shell.properties.latestReadyRevisionName}'
 output azShellLogs string = 'az containerapp logs show -n ${shell.name} -g ${resourceGroup().name} --revision ${shell.properties.latestRevisionName} --follow --tail 30'
 output azShellExec string = 'az containerapp exec -n ${shell.name} -g ${resourceGroup().name} --revision ${shell.properties.latestRevisionName} --command /bin/zsh'
 output azShowShellRevision string = 'az containerapp revision show -n ${shell.name} -g ${resourceGroup().name} --revision ${shell.properties.latestRevisionName}'
 
 output pgwebUrl string = 'https://${pgweb.properties.configuration.ingress.fqdn}'
+output pgwebId string = pgweb.id
+output pgwebLatestCreatedRevision string = pgweb.properties.latestRevisionName
+output pgwebLatestCreatedRevisionId string = '${pgweb.id}/revisions/${pgweb.properties.latestRevisionName}'
+output pgwebLatestReadyRevision string = pgweb.properties.latestReadyRevisionName
+output pgwebLatestReadyRevisionId string = '${pgweb.id}/revisions/${pgweb.properties.latestReadyRevisionName}'
 output azPgwebLogs string = 'az containerapp logs show -n ${pgweb.name} -g ${resourceGroup().name} --revision ${pgweb.properties.latestRevisionName} --follow --tail 30'
 output azPgwebExec string = 'az containerapp exec -n ${pgweb.name} -g ${resourceGroup().name} --revision ${pgweb.properties.latestRevisionName} --command /bin/bash'
 output azShowPgwebRevision string = 'az containerapp revision show -n ${pgweb.name} -g ${resourceGroup().name} --revision ${pgweb.properties.latestRevisionName}'
 
 output kafkaUiUrl string = 'https://${kafkaUi.properties.configuration.ingress.fqdn}'
+output kafkaUiLatestCreatedRevision string = kafkaUi.properties.latestRevisionName
+output kafkaUiLatestCreatedRevisionId string = '${kafkaUi.id}/revisions/${kafkaUi.properties.latestRevisionName}'
+output kafkaUiLatestReadyRevision string = kafkaUi.properties.latestReadyRevisionName
+output kafkaUiLatestReadyRevisionId string = '${kafkaUi.id}/revisions/${kafkaUi.properties.latestReadyRevisionName}'
 output azKafkaUiLogs string = 'az containerapp logs show -n ${kafkaUi.name} -g ${resourceGroup().name} --revision ${kafkaUi.properties.latestRevisionName} --follow --tail 30'
 output azKafkaUiExec string = 'az containerapp exec -n ${kafkaUi.name} -g ${resourceGroup().name} --revision ${kafkaUi.properties.latestRevisionName} --command /bin/bash'
 output azShowKafkaUiRevision string = 'az containerapp revision show -n ${kafkaUi.name} -g ${resourceGroup().name} --revision ${kafkaUi.properties.latestRevisionName}'
