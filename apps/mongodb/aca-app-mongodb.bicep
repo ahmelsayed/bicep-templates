@@ -154,7 +154,6 @@ resource mongodbExpress 'Microsoft.App/containerApps@2023-04-01-preview' = {
   }
 }
 
-output mongodbUrl string = 'https://${mongodb.properties.configuration.ingress.fqdn}'
 output mongodbLatestCreatedRevision string = mongodb.properties.latestRevisionName
 output mongodbLatestCreatedRevisionId string = '${mongodb.id}/revisions/${mongodb.properties.latestRevisionName}'
 output mongodbLatestReadyRevision string = mongodb.properties.latestReadyRevisionName
