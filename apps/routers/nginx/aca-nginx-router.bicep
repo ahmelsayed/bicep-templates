@@ -70,7 +70,7 @@ resource appv1 'Microsoft.App/containerApps@2023-05-01' = {
     environmentId: appEnv.id
     configuration: {
       ingress: {
-        external: true
+        external: false
         targetPort: 8080
         transport: 'http'
       }
@@ -97,7 +97,7 @@ resource appv2 'Microsoft.App/containerApps@2023-05-01' = {
     environmentId: appEnv.id
     configuration: {
       ingress: {
-        external: true
+        external: false
         targetPort: 8080
         transport: 'http'
       }
