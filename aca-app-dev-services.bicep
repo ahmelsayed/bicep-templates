@@ -108,19 +108,15 @@ resource pgweb 'Microsoft.App/containerApps@2023-04-01-preview' = {
         {
           serviceId: postgres.id
           name: 'postgres'
+          customizedKeys: {
+            PGWEB_DATABASE_URL: POSTGRES_URL
+          }
         }
       ]
       containers: [
         {
           name: 'pgweb'
           image: 'docker.io/sosedoff/pgweb:latest'
-          command: [
-            '/bin/sh'
-          ]
-          args: [
-            '-c'
-            'PGWEB_DATABASE_URL=$POSTGRES_URL /usr/bin/pgweb --bind=0.0.0.0 --listen=8081'
-          ]
         }
       ]
     }
@@ -143,23 +139,18 @@ resource kafkaUi 'Microsoft.App/containerApps@2023-04-01-preview' = {
         {
           serviceId: kafka.id
           name: 'kafka'
+          customizedKeys: {
+            KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: KAFKA_BOOTSTRAP_SERVERS
+            KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG: KAFKA_PROPERTIES_SASL_JAAS_CONFIG
+            KAFKA_CLUSTERS_0_PROPERTIES_SASL_MECHANISM: KAFKA_SASL_MECHANISM
+            KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCOL: KAFKA_SECURITY_PROTOCOL
+          }
         }
       ]
       containers: [
         {
           name: 'kafka-ui'
           image: 'docker.io/provectuslabs/kafka-ui:latest'
-          command: [
-            '/bin/sh'
-          ]
-          args: [
-            '-c'
-            '''export KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS="$KAFKA_BOOTSTRAP_SERVERS" && \
-            export KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG="$KAFKA_PROPERTIES_SASL_JAAS_CONFIG" && \
-            export KAFKA_CLUSTERS_0_PROPERTIES_SASL_MECHANISM="$KAFKA_SASL_MECHANISM" && \
-            export KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCOL="$KAFKA_SECURITY_PROTOCOL" && \
-            java $JAVA_OPTS -jar kafka-ui-api.jar'''
-          ]
           resources: {
             cpu: json('1.0')
             memory: '2.0Gi'
